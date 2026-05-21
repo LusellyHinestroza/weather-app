@@ -1,0 +1,16 @@
+{
+  "name": "weather-app",
+  "version": "1.0.0",
+  "description": "Aplicación del clima con Open-Meteo",
+  "main": "index.js",
+  "scripts": {
+    "start": "live-server"
+  },
+  "keywords": [
+    "weather",
+    "javascript",
+    "open-meteo"
+  ],
+  "author": "Lucelly",
+  "license": "ISC"
+}
