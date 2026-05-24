@@ -2,43 +2,132 @@ import {
   getWeatherDescription
 } from "./utils.js";
 
-export function displayWeather(data) {
+/* =========================================
+   MOSTRAR CLIMA
+========================================= */
 
-  const result =
-    document.getElementById("weatherResult");
+export function renderWeatherComparison(
+  weatherDataArray
+) {
 
-  result.innerHTML = `
+  const resultContainer =
+    document.getElementById(
+      "weatherResult"
+    );
 
-    <h2>
-      ${data.city}, ${data.country}
-    </h2>
+  resultContainer.innerHTML =
 
-    <p class="temperature">
-      ${data.temperature}°C
-    </p>
+    weatherDataArray.map(cityWeather => `
 
-    <p class="description">
-      ${getWeatherDescription(data.weathercode)}
-    </p>
+      <div class="weather-card">
 
-    <p>
-      💨 Viento:
-      ${data.windspeed} km/h
-    </p>
+        <div class="city-box">
 
+          <h2>
+            ${cityWeather.city}
+          </h2>
+
+          <span class="country">
+            ${cityWeather.country}
+          </span>
+
+        </div>
+
+        <div class="weather-info">
+
+          <div class="weather-item">
+
+            <span>
+              🌡️ Temperatura
+            </span>
+
+            <span>
+              ${cityWeather.temperature}°C
+            </span>
+
+          </div>
+
+          <div class="weather-item">
+
+            <span>
+              💧 Humedad
+            </span>
+
+            <span>
+              ${cityWeather.humidity}%
+            </span>
+
+          </div>
+
+          <div class="weather-item">
+
+            <span>
+              💨 Viento
+            </span>
+
+            <span>
+              ${cityWeather.windSpeed} km/h
+            </span>
+
+          </div>
+
+          <div class="weather-item">
+
+            <span>
+              🌧️ Precipitación
+            </span>
+
+            <span>
+              ${cityWeather.precipitation} mm
+            </span>
+
+          </div>
+
+        </div>
+
+        <div class="weather-status">
+
+          ${getWeatherDescription(
+            cityWeather.weatherCode
+          )}
+
+        </div>
+
+      </div>
+
+    `).join("");
+}
+
+/* =========================================
+   ERROR
+========================================= */
+
+export function showError(message) {
+
+  document.getElementById(
+    "weatherResult"
+  ).innerHTML = `
+
+    <div class="error-box">
+      ❌ ${message}
+    </div>
   `;
 }
 
-export function displayError(message) {
+/* =========================================
+   LOADING
+========================================= */
 
-  const result =
-    document.getElementById("weatherResult");
+export function showLoading() {
 
-  result.innerHTML = `
+  document.getElementById(
+    "loading"
+  ).style.display = "block";
+}
 
-    <p>
-      ❌ ${message}
-    </p>
+export function hideLoading() {
 
-  `;
+  document.getElementById(
+    "loading"
+  ).style.display = "none";
 }

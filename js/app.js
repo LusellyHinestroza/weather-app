@@ -1,66 +1,54 @@
 import {
-  fetchWeather
+  getWeatherForMultipleCities
 } from "./api.js";
 
 import {
-  displayWeather,
-  displayError
+  renderWeatherComparison,
+  showError,
+  showLoading,
+  hideLoading
 } from "./ui.js";
 
-const button =
-  document.getElementById("searchBtn");
+/* =========================================
+   BOTÓN BUSCAR
+========================================= */
 
-const cityInput =
-  document.getElementById("cityInput");
+document
+  .getElementById("searchBtn")
+  .addEventListener("click", async () => {
 
+    const cityInput =
+      document.getElementById(
+        "cityInput"
+      ).value;
 
-// Buscar con botón
-button.addEventListener(
-  "click",
-  searchWeather
-);
+    const cityList =
 
+      cityInput
+        .split(",")
+        .map(city => city.trim())
+        .filter(city => city !== "");
 
-// Buscar con Enter
-cityInput.addEventListener(
-  "keypress",
-  (event) => {
+    try {
 
-    if (event.key === "Enter") {
-      searchWeather();
+      showLoading();
+
+      const weatherData =
+
+        await getWeatherForMultipleCities(
+          cityList
+        );
+
+      renderWeatherComparison(
+        weatherData
+      );
+
+    } catch (error) {
+
+      showError(error.message);
+
+    } finally {
+
+      hideLoading();
     }
-
-  }
-);
-
-
-async function searchWeather() {
-
-  const city =
-    cityInput.value.trim();
-
-  if (!city) {
-
-    displayError(
-      "Escribe una ciudad"
-    );
-
-    return;
-  }
-
-  try {
-
-    const data =
-      await fetchWeather(city);
-
-    displayWeather(data);
-
-  } catch (error) {
-
-    displayError(error.message);
-
-    console.error(error);
-
-  }
-
-}
+  });
